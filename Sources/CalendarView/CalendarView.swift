@@ -41,6 +41,8 @@ public struct CalendarView: UIViewRepresentable {
         }
         
         view.fontDesign = self.fontDesign
+        view.wantsDateDecorations = self.decorationCallback != nil
+        view.delegate = self.decorationCallback != nil ? context.coordinator : nil
         
         view.calendar = context.environment.calendar
         view.locale = context.environment.locale
@@ -55,6 +57,7 @@ public struct CalendarView: UIViewRepresentable {
     
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
+    }
     
     // MARK: - Misc Modifier Properties
     
@@ -68,5 +71,14 @@ public struct CalendarView: UIViewRepresentable {
         new.fontDesign = design
         return new
     }
+    
+    public typealias DecorationCallback = (_ dateComponents: DateComponents) -> Decoration?
+    internal var decorationCallback: DecorationCallback? = nil
+    
+    /// Set decoration views for dates in the CalendarView.
+    public func decorations(_ callback: DecorationCallback? = nil) -> CalendarView {
+        var new = self
+        new.decorationCallback = callback
+        return new
     }
 }
