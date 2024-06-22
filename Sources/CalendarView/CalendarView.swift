@@ -51,6 +51,10 @@ public struct CalendarView: UIViewRepresentable {
     
     public func updateUIView(_ uiView: UICalendarView, context: Context) {
                 
+    }
+    
+    public func makeCoordinator() -> Coordinator {
+        Coordinator(self)
     
     // MARK: - Misc Modifier Properties
     
