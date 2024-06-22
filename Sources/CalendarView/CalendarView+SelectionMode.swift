@@ -29,7 +29,8 @@ extension CalendarView {
         internal static let singleDate = SelectionMode(rawValue: 1 << 0)!
         internal static let multiDate = SelectionMode(rawValue: 1 << 1)!
         
-        @available(iOS 18.0, macCatalyst 18.0, visionOS 2.0, *)
-        internal static let weekOfYear = SelectionMode(rawValue: 1 << 2)!
+        // TODO: implement new option on updated Xcode
+//        @available(iOS 18.0, macCatalyst 18.0, visionOS 2.0, *)
+//        internal static let weekOfYear = SelectionMode(rawValue: 1 << 2)!
     }
 }
