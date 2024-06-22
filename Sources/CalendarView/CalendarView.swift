@@ -40,6 +40,8 @@ public struct CalendarView: UIViewRepresentable {
             view.availableDateRange = availableDateRange
         }
         
+        view.fontDesign = self.fontDesign
+        
         view.calendar = context.environment.calendar
         view.locale = context.environment.locale
         view.timeZone = context.environment.timeZone
@@ -49,5 +51,18 @@ public struct CalendarView: UIViewRepresentable {
     
     public func updateUIView(_ uiView: UICalendarView, context: Context) {
                 
+    
+    // MARK: - Misc Modifier Properties
+    
+    private var fontDesign: UIFontDescriptor.SystemDesign = .default
+    
+    /// A font design that the calendar view uses for displaying calendar text.
+    ///
+    /// Defaults to [`default`](https://developer.apple.com/documentation/uikit/uifontdescriptor/systemdesign/3151799-default).
+    public func fontDesign(_ design: UIFontDescriptor.SystemDesign) -> CalendarView {
+        var new = self
+        new.fontDesign = design
+        return new
+    }
     }
 }
