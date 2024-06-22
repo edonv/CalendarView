@@ -21,10 +21,37 @@ public struct CalendarView: UIViewRepresentable {
     /// Set `availableDateRange` to restrict the earliest or latest dates that the calendar view displays. The default date range starts with [`distantPast`](https://developer.apple.com/documentation/foundation/date/1779829-distantpast) and ends with [`distantFuture`](https://developer.apple.com/documentation/foundation/date/1779684-distantfuture).
     public let availableDateRange: DateInterval?
     
+    @Binding
+    internal var selection: [DateComponents]
+    internal let selectionMode: SelectionMode?
+    
     public init(
+        _ selection: Binding<[DateComponents]>,
         visibleDateComponents: DateComponents? = nil,
         availableDateRange: DateInterval? = nil
     ) {
+        self._selection = selection
+        self.selectionMode = .multiDate
+        self.visibleDateComponents = visibleDateComponents
+        self.availableDateRange = availableDateRange
+    }
+    
+    public init(
+        _ selection: Binding<DateComponents?>? = nil,
+        visibleDateComponents: DateComponents? = nil,
+        availableDateRange: DateInterval? = nil
+    ) {
+        if let selection {
+            self._selection = selection.map { value in
+                [value].compactMap { $0 }
+            } reverse: { arr in
+                arr.first
+            }
+            self.selectionMode = .singleDate
+        } else {
+            self._selection = .constant([])
+            self.selectionMode = nil
+        }
         self.visibleDateComponents = visibleDateComponents
         self.availableDateRange = availableDateRange
     }
