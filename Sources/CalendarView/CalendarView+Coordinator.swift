@@ -17,3 +17,28 @@ extension CalendarView {
         }
     }
 }
+
+// MARK: UICalendarViewDelegate
+
+extension CalendarView.Coordinator: UICalendarViewDelegate {
+    private static let components: Set<Calendar.Component> = {
+        var temp: Set<Calendar.Component> = [.year, .day, .month, .era, .calendar, .timeZone, .weekOfMonth, .weekOfYear, .weekday, .weekdayOrdinal, .yearForWeekOfYear]
+        
+        return temp
+    }()
+    
+    public func calendarView(
+        _ calendarView: UICalendarView,
+        decorationFor dateComponents: DateComponents
+    ) -> UICalendarView.Decoration? {
+        let newComponents: DateComponents
+        if let date = calendarView.calendar.date(from: dateComponents) {
+            newComponents = calendarView.calendar
+                .dateComponents(Self.components, from: date)
+        } else {
+            newComponents = dateComponents
+        }
+        
+        return parent.decorationCallback?(newComponents)?.decoration
+    }
+}
