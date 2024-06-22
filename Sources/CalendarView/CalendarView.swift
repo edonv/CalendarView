@@ -37,6 +37,22 @@ public struct CalendarView: UIViewRepresentable {
     }
     
     public init(
+        _ selection: Binding<Set<DateComponents>>,
+        visibleDateComponents: DateComponents? = nil,
+        availableDateRange: DateInterval? = nil
+    ) {
+        self.init(
+            selection.map { set in
+                Array(set)
+            } reverse: { arr in
+                Set(arr)
+            },
+            visibleDateComponents: visibleDateComponents,
+            availableDateRange: availableDateRange
+        )
+    }
+    
+    public init(
         _ selection: Binding<DateComponents?>? = nil,
         visibleDateComponents: DateComponents? = nil,
         availableDateRange: DateInterval? = nil
