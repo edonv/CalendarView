@@ -80,7 +80,7 @@ public struct CalendarView: UIViewRepresentable {
     ) {
         if let selection {
             self._selection = selection.map { value in
-                [value].compactMap { $0 }
+                value.map { [$0] } ?? []
             } reverse: { arr in
                 arr.first
             }
