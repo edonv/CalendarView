@@ -8,6 +8,7 @@
 import Foundation
 
 extension CalendarView {
+    /// Not an enum because there will be a new case added that is only available on specific OS versions.
     internal struct SelectionMode: Sendable, Hashable {
         private var rawValue: UInt8
         private init?(rawValue: UInt8) {
