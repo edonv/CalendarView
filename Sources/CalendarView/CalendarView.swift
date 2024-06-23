@@ -10,6 +10,8 @@ import SwiftUI
 /// A view that displays a calendar with date-specific decorations, and provides for user selection of a single date or multiple dates.
 ///
 /// Configure the Calendar, Locale, and TimeZone by setting those values in the `Environment` (you can use the provided convenience View modifiers).
+///
+/// See [`UICalendarView`](https://developer.apple.com/documentation/uikit/uicalendarview) for more info.
 public struct CalendarView: UIViewRepresentable {
     /// The date components that represent the visible date in the calendar view.
     ///
