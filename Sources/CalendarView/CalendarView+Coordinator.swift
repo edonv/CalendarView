@@ -45,6 +45,13 @@ extension CalendarView.Coordinator: UICalendarViewDelegate {
             return parent.decorationCallback?(newComponents)?.decoration
         }
     }
+    
+    public func calendarView(
+        _ calendarView: UICalendarView,
+        didChangeVisibleDateComponentsFrom previousDateComponents: DateComponents
+    ) {
+        parent.visibleDateComponents.wrappedValue = calendarView.visibleDateComponents
+    }
 }
 
 // MARK: - UICalendarSelectionMultiDateDelegate
