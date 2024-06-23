@@ -8,9 +8,9 @@
 import Foundation
 
 extension CalendarView {
-    internal struct SelectionMode: Sendable, Hashable, RawRepresentable {
-        var rawValue: UInt8
-        init?(rawValue: UInt8) {
+    internal struct SelectionMode: Sendable, Hashable {
+        private var rawValue: UInt8
+        private init?(rawValue: UInt8) {
             guard SelectionMode.isValidValue(rawValue) else { return nil }
             self.rawValue = rawValue
         }
