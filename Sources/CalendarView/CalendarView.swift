@@ -17,6 +17,8 @@ import SwiftUI
 public struct CalendarView: UIViewRepresentable {
     /// The date components that represent the visible date in the calendar view.
     ///
+    /// This essentially describes the visible view of the calendar.
+    ///
     /// If `visibleDateComponents.calendar` is `nil` or isn't equal to [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), the view uses [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), which may result in an invalid date from the date components.
     public let visibleDateComponents: DateComponents?
     
@@ -32,7 +34,7 @@ public struct CalendarView: UIViewRepresentable {
     /// Creates a calendar view with ordered, multiple selection.
     /// - Parameters:
     ///   - selection: A binding to an array that identifies selected dates.
-    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. This essentially describes the visible view of the calendar. Leave `nil` for default value, which is the current month.
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<[DateComponents]>,
@@ -48,7 +50,7 @@ public struct CalendarView: UIViewRepresentable {
     /// Creates a calendar view with unordered, multiple selection.
     /// - Parameters:
     ///   - selection: A binding to an unordered set that identifies selected dates.
-    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. This essentially describes the visible view of the calendar. Leave `nil` for default value, which is the current month.
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<Set<DateComponents>>,
@@ -69,7 +71,7 @@ public struct CalendarView: UIViewRepresentable {
     /// Creates a calendar view, optionally with single selection.
     /// - Parameters:
     ///   - selection: A binding to a selected date.
-    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. This essentially describes the visible view of the calendar. Leave `nil` for default value, which is the current month.
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<DateComponents?>? = nil,
