@@ -125,10 +125,12 @@ public struct CalendarView: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: UICalendarView, context: Context) {
+        // Update environment values
         uiView.calendar = context.environment.calendar
         uiView.locale = context.environment.locale
         uiView.timeZone = context.environment.timeZone
         
+        // Update selections
         if let selectionObj = uiView.selectionBehavior {
             if self.selectionMode == .singleDate,
                let singleDate = selectionObj as? UICalendarSelectionSingleDate,
