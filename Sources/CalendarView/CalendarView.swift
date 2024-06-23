@@ -121,6 +121,9 @@ public struct CalendarView: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: UICalendarView, context: Context) {
+        context.coordinator.isUpdatingView = true
+        defer { context.coordinator.isUpdatingView = false }
+        
         // Update environment values
         uiView.calendar = context.environment.calendar
         uiView.locale = context.environment.locale

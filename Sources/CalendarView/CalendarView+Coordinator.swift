@@ -11,6 +11,8 @@ extension CalendarView {
     public class Coordinator: NSObject {
         private let parent: CalendarView
         
+        internal var isUpdatingView: Bool = false
+        
         internal init(_ parent: CalendarView) {
             self.parent = parent
             super.init()
@@ -31,6 +33,21 @@ extension CalendarView.Coordinator: UICalendarViewDelegate {
         _ calendarView: UICalendarView,
         decorationFor dateComponents: DateComponents
     ) -> UICalendarView.Decoration? {
+        if #unavailable(iOS 16.2, macCatalyst 16.2, visionOS 1.0) {
+            // UICalendarView doesn't provide a way to get notified when property visibleDateComponents changes.
+            // However, this delegate method is called whenever the user scrolls the view, which in turn
+            // allows us to read the current value of visibleDateComponents and update the binding.
+            if !isUpdatingView,
+                let bound = parent.visibleDateComponents.wrappedValue {
+                let visibleComponents = calendarView.visibleDateComponents
+                
+                if bound.year != visibleComponents.year
+                    && bound.month != visibleComponents.month {
+                    self.calendarView(calendarView, didChangeVisibleDateComponentsFrom: visibleComponents)
+                }
+            }
+        }
+        
         let newComponents: DateComponents
         if let date = calendarView.calendar.date(from: dateComponents) {
             newComponents = calendarView.calendar
