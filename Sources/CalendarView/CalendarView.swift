@@ -75,12 +75,16 @@ public struct CalendarView: UIViewRepresentable {
     public func makeUIView(context: Context) -> UICalendarView {
         let view = UICalendarView(frame: .zero)
         
-        switch self.selectionMode {
-        case .singleDate:
-            view.selectionBehavior = UICalendarSelectionSingleDate(delegate: context.coordinator)
-        case .multiDate:
-            view.selectionBehavior = UICalendarSelectionMultiDate(delegate: context.coordinator)
-        default:
+        if let selectionMode = self.selectionMode {
+            switch selectionMode {
+            case .singleDate:
+                view.selectionBehavior = UICalendarSelectionSingleDate(delegate: context.coordinator)
+            case .multiDate:
+                view.selectionBehavior = UICalendarSelectionMultiDate(delegate: context.coordinator)
+            default:
+                view.selectionBehavior = nil
+            }
+        } else {
             view.selectionBehavior = nil
         }
         
