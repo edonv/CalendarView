@@ -10,7 +10,7 @@ import SwiftUI
 extension CalendarView {
     public typealias DecorationSize = UICalendarView.DecorationSize
     
-    public struct Decoration: Sendable {
+    public struct Decoration: Sendable, Hashable {
         internal let decoration: UICalendarView.Decoration
         
         public init() {

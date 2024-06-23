@@ -39,7 +39,11 @@ extension CalendarView.Coordinator: UICalendarViewDelegate {
             newComponents = dateComponents
         }
         
-        return parent.decorationCallback?(newComponents)?.decoration
+        if let decoration = parent.dateSpecificDecorations[dateComponents] {
+            return decoration.decoration
+        } else {
+            return parent.decorationCallback?(newComponents)?.decoration
+        }
     }
 }
 

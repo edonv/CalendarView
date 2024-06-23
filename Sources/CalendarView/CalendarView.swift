@@ -163,11 +163,36 @@ public struct CalendarView: UIViewRepresentable {
     
     public typealias DecorationCallback = (_ dateComponents: DateComponents) -> Decoration?
     internal var decorationCallback: DecorationCallback? = nil
+    internal var dateSpecificDecorations: [DateComponents: Decoration] = [:]
     
     /// Set decoration views for dates in the CalendarView.
     public func decorations(_ callback: DecorationCallback? = nil) -> CalendarView {
         var new = self
         new.decorationCallback = callback
         return new
+    }
+    
+    /// Set decoration views for specific dates in the CalendarView.
+    public func decorations<C>(
+        for dates: C,
+        _ decoration: Decoration?
+    ) -> CalendarView where C: Collection, C.Element == DateComponents {
+        var new = self
+        if let decoration {
+            new.dateSpecificDecorations.merge(
+                dates.reduce(into: [:]) { $0[$1] = decoration },
+                uniquingKeysWith: { (_, new) in new }
+            )
+        } else {
+            for key in dates {
+                new.dateSpecificDecorations.removeValue(forKey: key)
+            }
+        }
+        return new
+    }
+    
+    /// Set decoration views for a specific date in the CalendarView.
+    public func decorations(for date: DateComponents, _ decoration: Decoration?) -> CalendarView {
+        self.decorations(for: CollectionOfOne(date), decoration)
     }
 }
