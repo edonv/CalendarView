@@ -130,6 +130,8 @@ public struct CalendarView: UIViewRepresentable {
         uiView.locale = context.environment.locale
         uiView.timeZone = context.environment.timeZone
         
+        let shouldAnimate = context.transaction.animation != nil
+        
         // Update selections
         if let selectionObj = uiView.selectionBehavior {
             if self.selectionMode == .singleDate,
@@ -137,14 +139,14 @@ public struct CalendarView: UIViewRepresentable {
                singleDate.selectedDate != self.selection.first {
                 singleDate.setSelected(
                     self.selection.first,
-                    animated: context.transaction.animation != nil
+                    animated: shouldAnimate
                 )
             } else if self.selectionMode == .multiDate,
                       let multiDate = selectionObj as? UICalendarSelectionMultiDate,
                       multiDate.selectedDates != self.selection {
                 multiDate.setSelectedDates(
                     self.selection,
-                    animated: context.transaction.animation != nil
+                    animated: shouldAnimate
                 )
             }
         }
