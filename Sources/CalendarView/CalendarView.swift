@@ -20,7 +20,7 @@ public struct CalendarView: UIViewRepresentable {
     /// This essentially describes the visible view of the calendar.
     ///
     /// If `visibleDateComponents.calendar` is `nil` or isn't equal to [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), the view uses [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), which may result in an invalid date from the date components.
-    public let visibleDateComponents: DateComponents?
+    public let visibleDateComponents: Binding<DateComponents?>
     
     /// The range of dates that the calendar view displays.
     ///
@@ -38,12 +38,12 @@ public struct CalendarView: UIViewRepresentable {
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<[DateComponents]>,
-        visibleDateComponents: DateComponents? = nil,
+        visibleDateComponents: Binding<DateComponents?>? = nil,
         availableDateRange: DateInterval? = nil
     ) {
         self._selection = selection
         self.selectionMode = .multiDate
-        self.visibleDateComponents = visibleDateComponents
+        self.visibleDateComponents = visibleDateComponents ?? .constant(nil)
         self.availableDateRange = availableDateRange
     }
     
@@ -54,7 +54,7 @@ public struct CalendarView: UIViewRepresentable {
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<Set<DateComponents>>,
-        visibleDateComponents: DateComponents? = nil,
+        visibleDateComponents: Binding<DateComponents?>? = nil,
         availableDateRange: DateInterval? = nil
     ) {
         self.init(
@@ -75,7 +75,7 @@ public struct CalendarView: UIViewRepresentable {
     ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<DateComponents?>? = nil,
-        visibleDateComponents: DateComponents? = nil,
+        visibleDateComponents: Binding<DateComponents?>? = nil,
         availableDateRange: DateInterval? = nil
     ) {
         if let selection {
@@ -89,7 +89,7 @@ public struct CalendarView: UIViewRepresentable {
             self._selection = .constant([])
             self.selectionMode = nil
         }
-        self.visibleDateComponents = visibleDateComponents
+        self.visibleDateComponents = visibleDateComponents ?? .constant(nil)
         self.availableDateRange = availableDateRange
     }
     
@@ -107,10 +107,6 @@ public struct CalendarView: UIViewRepresentable {
             }
         } else {
             view.selectionBehavior = nil
-        }
-        
-        if let visibleDateComponents {
-            view.visibleDateComponents = visibleDateComponents
         }
         
         if let availableDateRange {
@@ -149,6 +145,15 @@ public struct CalendarView: UIViewRepresentable {
                     animated: shouldAnimate
                 )
             }
+        }
+        
+        // Update visible components
+        if let visibleDateComponents = self.visibleDateComponents.wrappedValue,
+           uiView.visibleDateComponents != visibleDateComponents {
+            uiView.setVisibleDateComponents(
+                visibleDateComponents,
+                animated: shouldAnimate
+            )
         }
     }
     
