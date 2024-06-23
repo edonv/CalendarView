@@ -12,6 +12,8 @@ import SwiftUI
 /// Configure the Calendar, Locale, and TimeZone by setting those values in the `Environment` (you can use the provided convenience View modifiers).
 ///
 /// See [`UICalendarView`](https://developer.apple.com/documentation/uikit/uicalendarview) for more info.
+///
+/// > Important: When updating the `selection` Binding outside of `CalendarView`, be wary. If you create a `DateComponents` instance with components that aren't exactly the same as those set internally by `CalendarView`, you might get unexpected behavior, such as duplicate selections and more.
 public struct CalendarView: UIViewRepresentable {
     /// The date components that represent the visible date in the calendar view.
     ///
