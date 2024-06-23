@@ -27,6 +27,11 @@ public struct CalendarView: UIViewRepresentable {
     internal var selection: [DateComponents]
     internal let selectionMode: SelectionMode?
     
+    /// Creates a calendar view with ordered, multiple selection.
+    /// - Parameters:
+    ///   - selection: A binding to an array that identifies selected dates.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<[DateComponents]>,
         visibleDateComponents: DateComponents? = nil,
@@ -38,6 +43,11 @@ public struct CalendarView: UIViewRepresentable {
         self.availableDateRange = availableDateRange
     }
     
+    /// Creates a calendar view with unordered, multiple selection.
+    /// - Parameters:
+    ///   - selection: A binding to an unordered set that identifies selected dates.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<Set<DateComponents>>,
         visibleDateComponents: DateComponents? = nil,
@@ -54,6 +64,11 @@ public struct CalendarView: UIViewRepresentable {
         )
     }
     
+    /// Creates a calendar view, optionally with single selection.
+    /// - Parameters:
+    ///   - selection: A binding to a selected date.
+    ///   - visibleDateComponents: The date components that represent the visible date in the calendar view. Leave `nil` for default value.
+    ///   - availableDateRange: The range of dates that the calendar view displays and allows for selection. Leave `nil` for no limit.
     public init(
         _ selection: Binding<DateComponents?>? = nil,
         visibleDateComponents: DateComponents? = nil,
