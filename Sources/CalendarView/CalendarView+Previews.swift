@@ -34,6 +34,7 @@ private struct CalendarView_Preview: View {
                 }
                 .fixedSize()
         }
+        .padding()
         .onChange(of: selection, initial: true) {
             //            print(selection)
             if buffer == nil,
