@@ -205,6 +205,17 @@ public struct CalendarView: UIViewRepresentable {
         return new
     }
     
+    /// Set custom decoration views for dates in the CalendarView view a `@ViewBuilder`.
+    public func decorations(@ViewBuilder _ customViewProvider: @escaping (_ dateComponents: DateComponents) -> some View) -> CalendarView {
+        var new = self
+        new.decorationCallback = { dateComponents in
+            return .custom {
+                customViewProvider(dateComponents)
+            }
+        }
+        return new
+    }
+    
     /// Set decoration views for specific dates in the CalendarView.
     public func decorations<C>(
         for dates: C,
