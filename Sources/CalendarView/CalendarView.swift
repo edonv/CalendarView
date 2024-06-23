@@ -117,14 +117,14 @@ public struct CalendarView: UIViewRepresentable {
         view.wantsDateDecorations = self.decorationCallback != nil
         view.delegate = self.decorationCallback != nil ? context.coordinator : nil
         
-        view.calendar = context.environment.calendar
-        view.locale = context.environment.locale
-        view.timeZone = context.environment.timeZone
-        
         return view
     }
     
     public func updateUIView(_ uiView: UICalendarView, context: Context) {
+        uiView.calendar = context.environment.calendar
+        uiView.locale = context.environment.locale
+        uiView.timeZone = context.environment.timeZone
+        
         if let selectionObj = uiView.selectionBehavior {
             if self.selectionMode == .singleDate,
                let singleDate = selectionObj as? UICalendarSelectionSingleDate,
