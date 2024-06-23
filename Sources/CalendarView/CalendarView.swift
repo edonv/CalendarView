@@ -116,14 +116,14 @@ public struct CalendarView: UIViewRepresentable {
                singleDate.selectedDate != self.selection.first {
                 singleDate.setSelected(
                     self.selection.first,
-                    animated: false
+                    animated: context.transaction.animation != nil
                 )
             } else if self.selectionMode == .multiDate,
                       let multiDate = selectionObj as? UICalendarSelectionMultiDate,
                       multiDate.selectedDates != self.selection {
                 multiDate.setSelectedDates(
                     self.selection,
-                    animated: false
+                    animated: context.transaction.animation != nil
                 )
             }
         }
