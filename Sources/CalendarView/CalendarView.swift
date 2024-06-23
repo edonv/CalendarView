@@ -133,20 +133,37 @@ public struct CalendarView: UIViewRepresentable {
         
         // Update selections
         if let selectionObj = uiView.selectionBehavior {
+            // Make sure Binding has no duplicates and no values outside the validRange
+            var filtered = self.selection
+                .removingDuplicates()
+            
+            // Filter out any values that aren't in the range
+            if let availableDateRange = self.availableDateRange {
+                filtered.removeAll { components in
+                    guard let date = uiView.calendar.date(from: components) else { return false }
+                    return !availableDateRange.contains(date)
+                }
+            }
+            
             if self.selectionMode == .singleDate,
                let singleDate = selectionObj as? UICalendarSelectionSingleDate,
-               singleDate.selectedDate != self.selection.first {
+               singleDate.selectedDate != filtered.first {
                 singleDate.setSelected(
-                    self.selection.first,
+                    filtered.first,
                     animated: shouldAnimate
                 )
             } else if self.selectionMode == .multiDate,
                       let multiDate = selectionObj as? UICalendarSelectionMultiDate,
-                      multiDate.selectedDates != self.selection {
+                      multiDate.selectedDates != filtered {
+                
                 multiDate.setSelectedDates(
-                    self.selection,
+                    filtered,
                     animated: shouldAnimate
                 )
+            }
+            
+            if filtered != self.selection {
+                self.selection = filtered
             }
         }
         
