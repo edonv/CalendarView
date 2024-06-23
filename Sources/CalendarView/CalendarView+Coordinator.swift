@@ -87,7 +87,8 @@ extension CalendarView.Coordinator: UICalendarSelectionMultiDateDelegate {
         didSelectDate dateComponents: DateComponents
     ) {
         guard self.parent.selectionMode == .multiDate else { return }
-        self.parent.selection.append(dateComponents)
+        self.parent.selection = selection.selectedDates
+            .removingDuplicates()
     }
     
     /// Informs the delegate that a user deselected a date represented by date components.
@@ -98,9 +99,8 @@ extension CalendarView.Coordinator: UICalendarSelectionMultiDateDelegate {
         _ selection: UICalendarSelectionMultiDate,
         didDeselectDate dateComponents: DateComponents
     ) {
-        guard self.parent.selectionMode == .multiDate,
-              let index = self.parent.selection.firstIndex(of: dateComponents) else { return }
-        self.parent.selection.remove(at: index)
+        guard self.parent.selectionMode == .multiDate else { return }
+        self.parent.selection = selection.selectedDates
     }
 }
 
