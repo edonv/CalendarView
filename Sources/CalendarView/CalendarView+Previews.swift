@@ -62,6 +62,9 @@ private struct CalendarView_Preview: View {
 //                availableDateRange: .init(.now...)
             )
                 .fontDesign(.default)
+                .decorations { dateComponents in
+                    Text(dateComponents.day ?? 0, format: .number)
+                }
 //                .decorations { dateComponents in
 //                    return .image("star.fill", color: .orange)
 //                }
