@@ -22,7 +22,9 @@ private struct CalendarView_Preview: View {
             Button("Add") {
                 guard let buffer,
                       !selection.contains(buffer) else { return }
-                selection.insert(buffer)
+                withAnimation {
+                    selection.insert(buffer)
+                }
             }
             
             CalendarView($selection)
@@ -36,9 +38,7 @@ private struct CalendarView_Preview: View {
             //            print(selection)
             if buffer == nil,
                let toBuffer = selection.first {
-                withAnimation {
-                    buffer = toBuffer
-                }
+                buffer = toBuffer
             }
         }
         //    .locale(.init(identifier: "he"))
