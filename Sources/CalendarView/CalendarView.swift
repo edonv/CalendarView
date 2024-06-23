@@ -112,7 +112,6 @@ public struct CalendarView: UIViewRepresentable {
             if self.selectionMode == .singleDate,
                let singleDate = selectionObj as? UICalendarSelectionSingleDate,
                singleDate.selectedDate != self.selection.first {
-                print("Update")
                 singleDate.setSelected(
                     self.selection.first,
                     animated: false
@@ -120,7 +119,6 @@ public struct CalendarView: UIViewRepresentable {
             } else if self.selectionMode == .multiDate,
                       let multiDate = selectionObj as? UICalendarSelectionMultiDate,
                       multiDate.selectedDates != self.selection {
-                print("Update")
                 multiDate.setSelectedDates(
                     self.selection,
                     animated: false
