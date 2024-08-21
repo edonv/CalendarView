@@ -49,7 +49,7 @@ private struct CalendarView_Preview: View {
                 .fixedSize()
         }
         .padding()
-        .onChange(of: selection, initial: true) {
+        .onChange(of: selection, initial: false) {
             print("onChange:", selection.compactMap(\.day))
             if buffer == nil,
                let toBuffer = selection.first {
