@@ -11,7 +11,6 @@ import SwiftUI
 private struct CalendarView_Preview: View {
     @State
     private var selection = Array<DateComponents>()
-//    private var selection = Set<DateComponents>()
     
     @State
     private var buffer: DateComponents? = nil
@@ -21,13 +20,6 @@ private struct CalendarView_Preview: View {
     
     @State
     private var visibleDateComponents: DateComponents? = nil
-//    private var visibleDateComponents: Binding<DateComponents> {
-//        .init {
-//            toggle ? .init() : .init(year: 1996, month: 4, day: 10)
-//        } set: { newValue/*, transaction*/ in
-//            
-//        }
-//    }
     
     var body: some View {
         VStack {
@@ -36,14 +28,7 @@ private struct CalendarView_Preview: View {
             Toggle("Change Visible Date Components", isOn: $toggle)
             
             Button("Add") {
-//                guard let buffer,
-//                      !selection.contains(buffer) else { return }
-//                print(buffer)
                 withAnimation {
-//                    NotificationCenter.default.post(name: Notification.Name("test"), object: nil)
-                    
-//                    selection.insert(buffer)
-//                    selection.formUnion([
                     var a = selection.first
                     a?.day = 10
                     var b = selection.first
@@ -56,24 +41,14 @@ private struct CalendarView_Preview: View {
                 }
             }
             
-            CalendarView(
-                $selection
-//                visibleDateComponents: $visibleDateComponents,
-//                availableDateRange: .init(.now...)
-            )
+            CalendarView($selection)
                 .fontDesign(.default)
-                .decorations { dateComponents in
-                    Text(dateComponents.day ?? 0, format: .number)
+                .decorations { _ in
+                    .image("star.fill", color: .orange)
                 }
-//                .decorations { dateComponents in
-//                    return .image("star.fill", color: .orange)
-//                }
                 .fixedSize()
         }
         .padding()
-//        .onChange(of: visibleDateComponents, initial: true) {
-//            print("visibleComponents:", visibleDateComponents)
-//        }
         .onChange(of: selection, initial: true) {
             print("onChange:", selection.compactMap(\.day))
             if buffer == nil,
@@ -81,8 +56,6 @@ private struct CalendarView_Preview: View {
                 buffer = toBuffer
             }
         }
-        //    .locale(.init(identifier: "he"))
-        //    .environment(\.layoutDirection, .rightToLeft)
     }
 }
 
