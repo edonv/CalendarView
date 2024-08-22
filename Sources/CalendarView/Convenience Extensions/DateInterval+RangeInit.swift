@@ -39,3 +39,27 @@ extension PartialRangeThrough<Date>: DateRangeExpression {
         .init(start: .distantPast, end: self.upperBound)
     }
 }
+
+extension Date {
+    /// Returns a `DateInterval` using `ClosedRange` syntax.
+    /// - Parameters:
+    ///   - minimum: The lower bound for the interval.
+    ///   - maximum: The upper bound for the interval.
+    public static func ... (minimum: Self, maximum: Self) -> DateInterval {
+        .init(minimum...maximum)
+    }
+    
+    /// Returns a `DateInterval` using `PartialRangeFrom` syntax.
+    /// - Parameters:
+    ///   - minimum: The lower bound for the interval.
+    public static postfix func ... (minimum: Self) -> DateInterval {
+        .init(minimum...)
+    }
+    
+    /// Returns a `DateInterval` using `PartialRangeThrough` syntax.
+    /// - Parameters:
+    ///   - maximum: The upper bound for the interval.
+    public static prefix func ... (maximum: Self) -> DateInterval {
+        .init(...maximum)
+    }
+}
