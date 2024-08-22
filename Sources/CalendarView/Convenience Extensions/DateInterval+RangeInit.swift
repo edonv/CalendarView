@@ -18,6 +18,7 @@ extension DateInterval {
 ///
 /// Conforming types are `ClosedRange` (`x...y`), `PartialRangeFrom` (`x...`), and `PartialRangeThrough` (`...y`).
 public protocol DateRangeExpression: RangeExpression where Bound == Date {
+    /// Converts a date range expression to a `DateInterval`.
     func toInterval() -> DateInterval
 }
 
