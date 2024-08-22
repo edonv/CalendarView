@@ -9,12 +9,12 @@ More info on its full capabilities can be found at Apple's documentation for `UI
 
 ## Basic Usage
 
-The minimum needed to work with `CalendarView` is to attach it to a `Binding` variable with a `DateComponents` type. If you want to limit date selection to a single date at a time, use a `DateComponents?` (an optional `DateComponents`). To allow multiple date selection, the `Binding` should be a `Set<DateComponents>` (a `Set` of `DateComponents`).
+The minimum needed to work with `CalendarView` is to attach it to a `Binding` variable with a `DateComponents` type. If you want to limit date selection to a single date at a time, use an optional `DateComponents`. To allow multiple date selection, the `Binding` should be a `Set<DateComponents>` (a `Set` of `DateComponents`).
 
 > [!TIP]
 > If you don't need to track any selection, you can also omit this parameter entirely.
 >
-> And, alternatively, if using multiple selection and the order the selections are made matters, you can use an `[DateComponents]` instead of a `Set`.
+> And, alternatively, if using multiple selection and the order the selections are made matters, you can use `[DateComponents]` instead of a `Set`.
 
 ```swift
 struct ContentView: View {
@@ -45,7 +45,7 @@ struct ContentView: View {
 
 ### Environment Values
 
-Some elements of the `CalendarView` can be set with the standard SwiftUI [`Environment`](https://developer.apple.com/documentation/swiftui/environment) and its standard `ViewModifier` ([`.environment(_:_:)`](https://developer.apple.com/documentation/swiftui/view/environment(_:_:))).
+Some elements of the `CalendarView` can be set with SwiftUI [`Environment`](https://developer.apple.com/documentation/swiftui/environment) and its standard `ViewModifier` ([`environment(_:_:)`](https://developer.apple.com/documentation/swiftui/view/environment(_:_:))).
 
 This also means that `CalendarView` also reacts to these settings if they're set in the parent `Environment`. And for convenience, the package comes with abbreviated modifiers to directly set these values.
 
@@ -83,17 +83,15 @@ CalendarView($selectedDate)
 Another feature of `UICalendarView` (and therefore, `CalendarView` by proxy), is to display "decorations" along with any of the dates in the calendar. These can be different for different dates in the calendar, one type of decoration for all dates, or no decorations whatsoever.
 
 The different types of decorations are as follows:
-- `.default(color: Color? = nil, size: DecorationSize = .medium)`
+- `default(color: Color? = nil, size: DecorationSize = .medium)`
     - A decoration with a filled circle image, using the color and size you specify.
-- `.image(_ systemName: String, color: Color? = nil, size: DecorationSize = .medium)`
+- `image(_ systemName: String, color: Color? = nil, size: DecorationSize = .medium)`
     - A decoration with the image, color, and size that you specify.
     - You can specify an image with a `UIImage` or the name of an SF Symbols icon.
     - If you don't specify an image, it defaults to the `circlebadge.fill` symbol.
-    - If you don't specify a color, it defaults to [`.systemFill`](https://developer.apple.com/documentation/uikit/uicolor/3255070-systemfill).
-- `.custom(@ViewBuilder _ customViewProvider: () -> some View)`
+    - If you don't specify a color, it defaults to [`systemFill`](https://developer.apple.com/documentation/uikit/uicolor/3255070-systemfill).
+- `custom(@ViewBuilder _ customViewProvider: () -> some View)`
     - A custom decoration with a custom SwiftUI view, via a `@ViewBuilder` closure.
-
-- `.image(_:color:size:)`
 
 > [!TIP]
 > You can use multiple decoration modifiers to specify different decorations for different dates (or for all dates not explicitly specified in other modifiers).
@@ -119,7 +117,7 @@ CalendarView($selectedDate)
 
 #### Font Design
 
-The font design that the calendar view uses for displaying calendar text. `CalendarView` comes with a `ViewModifier` to set this.
+The font design that the calendar view uses for displaying calendar text. `CalendarView` comes with a `ViewModifier` to set this:
 
 ```swift
 CalendarView($selectedDate)
@@ -130,14 +128,12 @@ CalendarView($selectedDate)
 
 Using the `visibleDateComponents` parameter in `CalendarView`'s initializer (`Binding<DateComponents?>`), you can control the visible part of in the calendar view. It can also be used to keep track of what part of the calendar is currently be used.
 
-> [!IMPORTANT]
-> If `visibleDateComponents.calendar` is set to a different `Calendar` than the view's `calendar` (see [Environment Values](#environment-values)), the view uses the current `Environment`'s `calendar`, which may result in an invalid date from the date components.
-
 ```swift
 struct ContentView: View {
     @State
     private var selectedDate: DateComponents? = nil
 
+    // This sets the initial month shown to May 2024
     @State
     private var currentlyViewedComponents: DateComponents? = .init(
         calendar: calendar,
@@ -154,6 +150,9 @@ struct ContentView: View {
 }
 ```
 
+> [!IMPORTANT]
+> If `visibleDateComponents`'s `calendar` property is set to a different `Calendar` than the view's `calendar` (see [Environment Values](#environment-values)), the view uses the current `Environment`'s `calendar`, which may result in an invalid date from the date components.
+
 #### Available Date Range
 
 Using the `availableDateRange` parameter in `CalendarView`'s initializer (`DateInterval`), you can control the range of dates that the calendar view is able to display. Setting this parameter restricts the earliest or latest dates that the calendar view displays. The default date range is from `distantPast` to `distantFuture`.
@@ -161,14 +160,15 @@ Using the `availableDateRange` parameter in `CalendarView`'s initializer (`DateI
 For convenience, an extra protocol comes with the package: `DateRangeExpression`, which allows a `DateInterval` to be initialized from a few of the range types. Additionally, it comes with support for using "`Range`-literal" syntax with `Date` values to create a `DateInterval` value. Specifically, it works with the syntax for:
 - `ClosedRange`: `date1...date2`
 - `PartialRangeFrom`: `date1...`
-    - Open upper end of range is set to `.distantFuture`.
+    - Open upper end of range is set to `distantFuture`.
 - `PartialRangeThrough`: `...date2`
-    - Open lower end of range is set to `.distantPast`.
+    - Open lower end of range is set to `distantPast`.
 
 ```swift
 CalendarView(
     $selectedDate,
-    // This would only allow the user to select a date after the current moment in time.
+    // This would only allow the user to select
+    // a date from the current moment in time onward.
     availableDateRange: Date.now...
 )
 ```
