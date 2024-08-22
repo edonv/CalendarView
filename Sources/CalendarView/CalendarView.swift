@@ -259,4 +259,11 @@ public struct CalendarView: UIViewRepresentable {
     public func decorations(for date: DateComponents, _ decoration: Decoration?) -> CalendarView {
         self.decorations(for: CollectionOfOne(date), decoration)
     }
+    
+    /// Set decoration views for all dates in the CalendarView.
+    public func decorations(_ decoration: Decoration?) -> CalendarView {
+        self.decorations { _ in
+            decoration
+        }
+    }
 }
