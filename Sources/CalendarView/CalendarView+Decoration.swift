@@ -10,9 +10,11 @@ import SwiftUI
 extension CalendarView {
     public typealias DecorationSize = UICalendarView.DecorationSize
     
+    /// A view that a calendar view displays for a specific date.
     public struct Decoration: Sendable, Hashable {
         internal let decoration: UICalendarView.Decoration
         
+        /// Creates a default calendar view decoration with a filled circle image, using the system fill color and medium size.
         public init() {
             self.decoration = .init()
         }
@@ -79,8 +81,6 @@ extension CalendarView {
         }
         
         /// Creates a new calendar view decoration with the image, color, and size that you specify.
-        ///
-        /// The image defaults to `circlebadge.fill` if you don't specify it.
         ///
         /// The color defaults to [`systemFill`](https://developer.apple.com/documentation/uikit/uicolor/3255070-systemfill) if you don't specify it.
         ///
