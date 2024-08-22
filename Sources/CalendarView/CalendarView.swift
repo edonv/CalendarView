@@ -119,6 +119,7 @@ public struct CalendarView: UIViewRepresentable {
         
         view.fontDesign = self.fontDesign
         view.wantsDateDecorations = self.decorationCallback != nil
+            || !self.dateSpecificDecorations.isEmpty
         view.delegate = context.coordinator
         
         return view
