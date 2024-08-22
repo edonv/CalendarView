@@ -198,6 +198,21 @@ public struct CalendarView: UIViewRepresentable {
         return new
     }
     
+    /// A font design that the calendar view uses for displaying calendar text.
+    ///
+    /// Defaults to [`.default`](https://developer.apple.com/documentation/swiftui/font/design/default).
+    public func fontDesign(_ design: Font.Design) -> CalendarView {
+        let design: UIFontDescriptor.SystemDesign = switch design {
+        case .default: .default
+        case .serif: .serif
+        case .rounded: .rounded
+        case .monospaced: .monospaced
+        @unknown default: .default
+        }
+        
+        return self.fontDesign(design)
+    }
+    
     public typealias DecorationCallback = (_ dateComponents: DateComponents) -> Decoration?
     internal var decorationCallback: DecorationCallback? = nil
     internal var dateSpecificDecorations: [DateComponents: Decoration] = [:]
