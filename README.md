@@ -26,8 +26,13 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
+            // No selection tracking
+            CalendarView()
+
+            // Single date selection tracking
             CalendarView($singleDateSelection)
 
+            // Multiple date selection tracking
             CalendarView($multipleDateSelection)
         }
     }
@@ -51,10 +56,10 @@ This also means that `CalendarView` also reacts to these settings if they're set
 
 These elements are:
 
-- The actual calendar system ([`\.calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar)/[`Calendar`](https://developer.apple.com/documentation/foundation/calendar))
+- The actual calendar system ([`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar)/[`Calendar`](https://developer.apple.com/documentation/foundation/calendar))
     - i.e. Gregorian vs. Chinese vs. Buddhist
-- The language ([`\.locale`](https://developer.apple.com/documentation/swiftui/environmentvalues/locale)/[`Locale`](https://developer.apple.com/documentation/foundation/locale))
-- The time zone ([`\.timeZone`](https://developer.apple.com/documentation/swiftui/environmentvalues/timezone)/[`TimeZone`](https://developer.apple.com/documentation/foundation/timezone))
+- The language ([`locale`](https://developer.apple.com/documentation/swiftui/environmentvalues/locale)/[`Locale`](https://developer.apple.com/documentation/foundation/locale))
+- The time zone ([`timeZone`](https://developer.apple.com/documentation/swiftui/environmentvalues/timezone)/[`TimeZone`](https://developer.apple.com/documentation/foundation/timezone))
     - Changing this won't have a visual effect, but the selected `DateComponent` values it outputs will have the applied `TimeZone` (or the one in the active `Environment`) pre-set.
 
 ```swift
