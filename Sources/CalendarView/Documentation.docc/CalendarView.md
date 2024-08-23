@@ -29,9 +29,9 @@ For more info on its full capabilities, see [Apple's documentation](https://deve
 - ``Decoration``
 - ``decorations(_:)-8b6f0``
 - ``decorations(_:)-6ifm``
+- ``decorations(_:)-4pnjd``
 - ``decorations(for:_:)-6j91n``
 - ``decorations(for:_:)-4bggj``
-<!--- ``decorations(for:)``-->
 - ``DecorationCallback``
 - ``DecorationSize``
 
