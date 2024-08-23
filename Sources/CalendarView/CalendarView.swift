@@ -109,6 +109,7 @@ public struct CalendarView: UIViewRepresentable {
         
         view.fontDesign = self.fontDesign
         view.wantsDateDecorations = self.decorationCallback != nil
+            || !self.dateSpecificDecorations.isEmpty
         view.delegate = context.coordinator
         
         return view
@@ -181,11 +182,26 @@ public struct CalendarView: UIViewRepresentable {
     
     /// A font design that the calendar view uses for displaying calendar text.
     ///
-    /// Defaults to [`default`](https://developer.apple.com/documentation/uikit/uifontdescriptor/systemdesign/3151799-default).
+    /// Defaults to [`.default`](https://developer.apple.com/documentation/uikit/uifontdescriptor/systemdesign/3151799-default).
     public func fontDesign(_ design: UIFontDescriptor.SystemDesign) -> CalendarView {
         var new = self
         new.fontDesign = design
         return new
+    }
+    
+    /// A font design that the calendar view uses for displaying calendar text.
+    ///
+    /// Defaults to [`.default`](https://developer.apple.com/documentation/swiftui/font/design/default).
+    public func fontDesign(_ design: Font.Design) -> CalendarView {
+        let design: UIFontDescriptor.SystemDesign = switch design {
+        case .default: .default
+        case .serif: .serif
+        case .rounded: .rounded
+        case .monospaced: .monospaced
+        @unknown default: .default
+        }
+        
+        return self.fontDesign(design)
     }
     
     public typealias DecorationCallback = (_ dateComponents: DateComponents) -> Decoration?
@@ -232,5 +248,12 @@ public struct CalendarView: UIViewRepresentable {
     /// Set decoration views for a specific date in the CalendarView.
     public func decorations(for date: DateComponents, _ decoration: Decoration?) -> CalendarView {
         self.decorations(for: CollectionOfOne(date), decoration)
+    }
+    
+    /// Set decoration views for all dates in the CalendarView.
+    public func decorations(_ decoration: Decoration?) -> CalendarView {
+        self.decorations { _ in
+            decoration
+        }
     }
 }
