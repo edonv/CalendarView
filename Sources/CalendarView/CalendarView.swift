@@ -8,22 +8,12 @@
 import SwiftUI
 
 /// A view that displays a calendar with date-specific decorations, and provides for user selection of a single date or multiple dates.
-///
-/// Configure the `Calendar`, `Locale`, and `TimeZone` by setting those values in the `Environment` (you can use the provided convenience View modifiers).
-///
-/// See [`UICalendarView`](https://developer.apple.com/documentation/uikit/uicalendarview) for more info.
-///
-/// > Important: When updating the `selection` `Binding` outside of `CalendarView`, be wary.
-/// >
-/// > If you manually create or make changes to a `DateComponents` instance output from `CalendarView` with components that aren't exactly the same as those set internally by the view, you might get unexpected behavior, such as duplicate selections and more.
-/// >
-/// > It's recommended to use the `Binding` as a "read-only" property and not to write to it directly.
 public struct CalendarView: UIViewRepresentable {
     /// The date components that represent the visible date in the calendar view.
     ///
     /// This essentially describes the visible view of the calendar.
     ///
-    /// If `visibleDateComponents.calendar` is `nil` or isn't equal to [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), the view uses [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), which may result in an invalid date from the date components.
+    /// > Important: If `visibleDateComponents`'s [`calendar`](https://developer.apple.com/documentation/foundation/datecomponents/1779873-calendar) property is set to a different `Calendar` than the view's `calendar`, the view uses the current `Environment`'s [`calendar`](https://developer.apple.com/documentation/swiftui/environmentvalues/calendar), which may result in an invalid date from the date components.
     public let visibleDateComponents: Binding<DateComponents?>
     
     /// The range of dates that the calendar view displays.
